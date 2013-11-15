@@ -1,8 +1,12 @@
 Leaflet.MML-layers
 ==================
 
+National Land Survey of Finland (MML) free maps on [Leaflet](http://leafletjs.com/).
+
 Predefined Leafler tile layer settings for [kartat.kapsi.fi](http://kartat.kapsi.fi/) TMS service. Supports both `EPSG:900913` & `EPSG:3067` layers.
 If you want to use `EPSG:3067` layers you must include [Proj4Leaflet](https://github.com/kartena/Proj4Leaflet)
+
+### [Demo](http://jleh.github.io/Leaflet.MML-layers)
 
 Usage
 -----
