@@ -35,4 +35,4 @@ Usage
 Static methods
 --------------
 
-`L.TileLayer.MML.3067Proj()` Returns L.Proj.CRS.TMS object for `EPSG:3067`
+`L.TileLayer.MML.get3067Proj()` Returns `L.Proj.CRS.TMS` object for `EPSG:3067`
