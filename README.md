@@ -25,7 +25,7 @@ Usage
                 worldCopyJump: false
             }).setView([61, 25], 6);
   
-  L.tileLayer.mml("Peruskartta").addTo(map);
+  L.tileLayer.mml("Peruskartta_3067").addTo(map);
 ```
 
 Static methods
