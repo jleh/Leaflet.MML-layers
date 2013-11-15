@@ -11,7 +11,7 @@ Usage
   new L.tileLayer.mml('Ortokuva');
   
   // Or add to map
-  L.tileLayer.mml("Peruskartta"),addTo(map);
+  L.tileLayer.mml("Peruskartta").addTo(map);
 ```
 
 More about maps: http://kartat.kapsi.fi/
