@@ -1,0 +1,43 @@
+<!doctype>
+<html>
+<head>
+    <title>MML EPSG:3067 Layers example</title>
+
+    <style type="text/css">
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        html, body, #map {
+            height: 100%;
+        }
+    </style>
+
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
+    <![endif]-->
+
+    <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+    <script src="../lib/proj4-compressed.js"></script>
+    <script src="../lib/proj4leaflet.js"></script>
+    <script src="../mmlLayers.js"></script>
+
+    <script type="text/javascript">
+        var map;
+
+        function init() {
+            map = new L.map('map', {
+                crs: L.TileLayer.MML.get3067Proj(),
+                continuousWorld: true,
+                worldCopyJump: false
+            }).setView([61, 25], 6);
+           
+            L.tileLayer.mml("Taustakartta_3067").addTo(map);
+        }
+    </script>
+</head>
+<body onload="init();">
+    <div id="map"></div>
+</body>
+</html>
