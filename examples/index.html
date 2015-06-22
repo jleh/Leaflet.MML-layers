@@ -13,12 +13,9 @@
         }
     </style>
 
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
-    <!--[if lte IE 8]>
-        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
-    <![endif]-->
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
 
-    <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
     <script src="../mmlLayers.js"></script>
 
     <script type="text/javascript">
@@ -32,7 +29,7 @@
             };
 
             map = new L.map('map').setView([61, 25], 8);
-            map.addLayer(layers["Taustakartta"]);
+            map.addLayer(layers.Taustakartta);
 
             L.control.layers(layers).addTo(map);
         }
