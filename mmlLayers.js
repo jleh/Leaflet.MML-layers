@@ -136,4 +136,6 @@
     L.tileLayer.mml_wmts = function (options) {
         return new L.TileLayer.MML_WMTS(options);
     };
+
+    return L.TileLayer;
 }));
