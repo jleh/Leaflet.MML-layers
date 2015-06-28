@@ -25,14 +25,10 @@
 
         function init() {
             map = new L.map('map', {
-                crs: L.TileLayer.MML.get3067Proj(),
-                continuousWorld: true,
-                worldCopyJump: false
+                crs: L.TileLayer.MML.get3067Proj()
             }).setView([61, 25], 6);
            
-            wmtsLayer = new L.TileLayer.MML_WMTS({ layer: "maastokartta" });
-
-            map.addLayer(wmtsLayer);
+            L.tileLayer.mml_wmts({ layer: "maastokartta" }).addTo(map);
         }
     </script>
 </head>
