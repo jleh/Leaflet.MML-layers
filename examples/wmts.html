@@ -1,7 +1,7 @@
 <!doctype>
 <html>
 <head>
-    <title>MML Layers example</title>
+    <title>MML WMTS Layers example</title>
 
     <style type="text/css">
         body {
@@ -16,22 +16,19 @@
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
 
     <script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+    <script src="../lib/proj4-compressed.js"></script>
+    <script src="../lib/proj4leaflet.js"></script>
     <script src="../mmlLayers.js"></script>
 
     <script type="text/javascript">
         var map;
 
         function init() {
-            var layers = {
-                "Taustakartta" : L.tileLayer.mml("Taustakartta"),
-                "Peruskartta" : new L.tileLayer.mml("Peruskartta"),
-                "Ilmakuva" : L.tileLayer.mml("Ortokuva")
-            };
-
-            map = new L.map('map').setView([61, 25], 8);
-            map.addLayer(layers.Taustakartta);
-
-            L.control.layers(layers).addTo(map);
+            map = new L.map('map', {
+                crs: L.TileLayer.MML.get3067Proj()
+            }).setView([61, 25], 6);
+           
+            L.tileLayer.mml_wmts({ layer: "maastokartta" }).addTo(map);
         }
     </script>
 </head>
