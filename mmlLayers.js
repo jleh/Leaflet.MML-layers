@@ -66,7 +66,9 @@ L.TileLayer.MML_WMTS = L.TileLayer.extend({
         style: "default",
         tileSize: 256,
         maxZoom: 13,
-        minZoom: 2
+        minZoom: 2,
+        attribution : '&copy; <a href="http://www.maanmittauslaitos.fi/avoindata_lisenssi_versio1_20120501"' +
+                      'target=new>Maanmittauslaitos</a>'
     },
 
     initialize: function (options) {
