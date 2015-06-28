@@ -1,3 +1,7 @@
+/**
+*   MML layers for Leaflet. https://github.com/jleh/Leaflet.MML-layers
+*   Copyright (c) 2013-2015 Juuso Lehtinen
+*/
 
 L.TileLayer.MML = L.TileLayer.extend({
     options: {
