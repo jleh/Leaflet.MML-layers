@@ -53,4 +53,4 @@ L.TileLayer.MML = L.TileLayer.extend({
 
 L.tileLayer.mml = function (type, options) {
     return new L.TileLayer.MML(type, options);
-}
+};
