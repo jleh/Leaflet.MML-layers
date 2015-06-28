@@ -60,9 +60,9 @@ L.tileLayer.mml = function (type, options) {
 L.TileLayer.MML_WMTS = L.TileLayer.extend({
     
     options: {
+        url: "http://avoindata.maanmittauslaitos.fi/mapcache/wmts",
         layer: "taustakartta",
         tileMatrixSet: "ETRS-TM35FIN",
-        format: "image/png",
         style: "default",
         tileSize: 256,
         maxZoom: 13,
@@ -70,8 +70,7 @@ L.TileLayer.MML_WMTS = L.TileLayer.extend({
     },
 
     initialize: function (options) {
-        this._url = "http://avoindata.maanmittauslaitos.fi/mapcache/wmts";
-        this.matrixIds = this.getMMLMatrix();
+        this.options.matrixIds = this.getMMLMatrix();
         L.Util.setOptions(this, options);
     },
 
@@ -81,19 +80,19 @@ L.TileLayer.MML_WMTS = L.TileLayer.extend({
         var tileSize = this.options.tileSize;
         var zoom = map.getZoom();
         var point = tilePoint.multiplyBy(tileSize);
-        var id = this.matrixIds[zoom].identifier;
-        var cornerX = this.matrixIds[zoom].topLeftCorner.lng;
-        var cornerY = this.matrixIds[zoom].topLeftCorner.lat;
+        var id = this.options.matrixIds[zoom].identifier;
+        var cornerX = this.options.matrixIds[zoom].topLeftCorner.lng;
+        var cornerY = this.options.matrixIds[zoom].topLeftCorner.lat;
 
         point.x+=1;
         point.y-=1;
 
         var tileCoord = crs.project(map.unproject(point, zoom));
-        var col = Math.floor((tileCoord.x - cornerX)/ (tileSize * this.matrixIds[zoom].resolution));
-        var row = -Math.floor((tileCoord.y - cornerY)/ (tileSize * this.matrixIds[zoom].resolution));
-        var url = L.Util.template(this._url, {s: this._getSubdomain(tilePoint)});
+        var col = Math.floor((tileCoord.x - cornerX)/ (tileSize * this.options.matrixIds[zoom].resolution));
+        var row = -Math.floor((tileCoord.y - cornerY)/ (tileSize * this.options.matrixIds[zoom].resolution));
+        var url = L.Util.template(this.options.url, {s: this._getSubdomain(tilePoint)});
         
-        return url + "/1.0.0/maastokartta/default/ETRS-TM35FIN/"  + id + "/" + row +"/" + col +".png";
+        return url + "/1.0.0/" + this.options.layer +  "/" + this.options.style + "/ETRS-TM35FIN/"  + id + "/" + row +"/" + col +".png";
     },
 
     getMMLMatrix: function() {
@@ -110,3 +109,7 @@ L.TileLayer.MML_WMTS = L.TileLayer.extend({
         return matrixIds;
     }
 });
+
+L.tileLayer.mml_wmts = function (options) {
+    return new L.TileLayer.MML_WMTS(options);
+};

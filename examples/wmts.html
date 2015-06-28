@@ -30,7 +30,7 @@
                 worldCopyJump: false
             }).setView([61, 25], 6);
            
-            wmtsLayer = new L.TileLayer.MML_WMTS();
+            wmtsLayer = new L.TileLayer.MML_WMTS({ layer: "maastokartta" });
 
             map.addLayer(wmtsLayer);
         }
