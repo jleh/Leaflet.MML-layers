@@ -1,0 +1,88 @@
+<!doctype>
+<html>
+<head>
+    <title>MML WMTS Layers example</title>
+
+    <style type="text/css">
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        html, body, #map {
+            height: 100%;
+        }
+    </style>
+
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+    <script src="../lib/leaflet-tilelayer-wmts.js"></script>
+    <script src="../lib/proj4-compressed.js"></script>
+    <script src="../lib/proj4leaflet.js"></script>
+    <script src="../mmlLayers.js"></script>
+
+    <script type="text/javascript">
+        var map;
+
+        function init() {
+            map = new L.map('map', {
+                crs: L.TileLayer.MML.get3067Proj(),
+                continuousWorld: true,
+                worldCopyJump: false
+            }).setView([61, 25], 6);
+           
+            var url = "http://avoindata.maanmittauslaitos.fi/mapcache/wmts";
+            wmtsLayer = new L.TileLayer.WMTS(url, {
+                layer: "taustakartta",
+                tileMatrixSet: "ETRS-TM35FIN",
+                format: "image/png",
+                style: "default",
+                tileSize: 256,
+                matrixIds: getMMLMatrix(),
+                maxZoom: 13,
+                minZoom: 2
+            });
+
+            function getMMLMatrix() {
+                var matrixIds = [];
+
+                for (var i = 0; i < 15; i++) {
+                    matrixIds[i] = {
+                        identifier : "" + i,
+                        topLeftCorner: new L.LatLng(8388608, -548576),
+                        resolution: Math.pow(2, 13 - i)
+                    };
+                }
+
+                return matrixIds;
+            }
+
+            wmtsLayer.getTileUrl = function (tilePoint) {
+                var map = this._map;
+                var crs = map.options.crs;
+                var tileSize = this.options.tileSize;
+                var zoom = map.getZoom();
+                var point = tilePoint.multiplyBy(tileSize);
+                var id = this.matrixIds[zoom].identifier;
+                var cornerX = this.matrixIds[zoom].topLeftCorner.lng;
+                var cornerY = this.matrixIds[zoom].topLeftCorner.lat;
+
+                point.x+=1;
+                point.y-=1;
+
+                var tileCoord = crs.project(map.unproject(point, zoom));
+                var col = Math.floor((tileCoord.x - cornerX)/ (tileSize * this.matrixIds[zoom].resolution));
+                var row = -Math.floor((tileCoord.y - cornerY)/ (tileSize * this.matrixIds[zoom].resolution));
+                var url = L.Util.template(this._url, {s: this._getSubdomain(tilePoint)});
+                
+                return url + "/1.0.0/maastokartta/default/ETRS-TM35FIN/"  + id + "/" + row +"/" + col +".png";
+            };
+
+            map.addLayer(wmtsLayer);
+        }
+    </script>
+</head>
+<body onload="init();">
+    <div id="map"></div>
+</body>
+</html>
