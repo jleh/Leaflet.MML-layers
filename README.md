@@ -13,7 +13,7 @@ Proj4Leaflet must be loaded to use WMTS layers.
 
 Changelog
 ---------
-* **1.3.0** Project can be installed as an npm package.
+* **1.3.1** Project can be installed as an npm package.
 * **1.2.0** Added support for module JS module loaders (like RequireJS).
 
 Installation
