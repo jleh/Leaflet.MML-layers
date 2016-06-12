@@ -9,12 +9,31 @@ If you want to use `EPSG:3067` layers you must include [Proj4Leaflet](https://gi
 Since version 1.1.0 it's possible to use [WMTS layers](http://www.maanmittauslaitos.fi/aineistot-palvelut/rajapintapalvelut/paikkatiedon-palvelualustan-pilotti) from MML.
 Proj4Leaflet must be loaded to use WMTS layers.
 
-1.2.0 added support for module JS module loaders (like RequireJS).
-
 ### [Demo](http://jleh.github.io/Leaflet.MML-layers)
+
+Changelog
+---------
+* **1.3.0** Project can be installed as an npm package.
+* **1.2.0** Added support for module JS module loaders (like RequireJS).
+
+Installation
+------------
+Just download and include `mmlLayers.js` to your page after leaflet or install it from npm.
+
+```js
+$ npm install --save leaflet-mml-layers
+```
+
+Note for npm install: If you want to use EPSG:3067 projection you need to install `proj4leaflet`
+and require it before this lib.
+```js
+require("proj4leaflet");
+var L = require("leaflet-mml-layers");
+```
 
 Usage
 -----
+
 ##### WMTS layers
 ```js
 var map = new L.map('map', {
