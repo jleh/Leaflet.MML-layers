@@ -3,20 +3,23 @@
 *   Copyright (c) 2013-2015 Juuso Lehtinen
 */
 
-(function (factory) {
+(function (factory, window) {
     var L;
 
     if (typeof define === "function" && define.amd) {
         define(["leaflet"], factory);
     } else if (typeof module !== "undefined") {
-        L = require("leaflet");
-        module.exports = factory(L);
+        if(window.L) {
+            module.exports = factory(window.L);
+        } else {
+            module.exports = factory(require("leaflet"));
+        }
     } else {
         if (typeof window.L === "undefined") {
             throw "Leaflet must be loaded first.";
         }
 
-        factory(window.L);
+        window.L = factory(window.L);
     }
 
 }(function (L) {
@@ -137,5 +140,5 @@
         return new L.TileLayer.MML_WMTS(options);
     };
 
-    return L.TileLayer;
-}));
+    return L;
+}, window));
