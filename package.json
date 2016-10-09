@@ -23,6 +23,6 @@
   },
   "homepage": "https://github.com/jleh/Leaflet.MML-layers#readme",
   "dependencies": {
-    "leaflet": "^0.7.7"
+    "leaflet": "^1.0.1"
   }
 }
