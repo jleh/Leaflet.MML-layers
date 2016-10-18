@@ -1,0 +1,27 @@
+{
+  "name": "leaflet-mml-layers",
+  "version": "2.0.1",
+  "description": "Predefined Leafler tile layer settings for MML maps from kartat.kapsi.fi TMS service and avoindata.maanmittauslaitos.fi WMTS service",
+  "main": "mmlLayers.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jleh/Leaflet.MML-layers.git"
+  },
+  "keywords": [
+    "leaflet",
+    "mml",
+    "finland"
+  ],
+  "author": "Juuso Lehtinen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jleh/Leaflet.MML-layers/issues"
+  },
+  "homepage": "https://github.com/jleh/Leaflet.MML-layers#readme",
+  "dependencies": {
+    "leaflet": "^1.0.1"
+  }
+}
