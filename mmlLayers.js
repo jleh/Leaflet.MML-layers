@@ -1,6 +1,6 @@
 /**
 *   MML layers for Leaflet. https://github.com/jleh/Leaflet.MML-layers
-*   Copyright (c) 2013-2016 Juuso Lehtinen
+*   Copyright (c) 2013-2018 Juuso Lehtinen
 */
 
 (function (factory, window) {
@@ -94,7 +94,7 @@
 
     L.tileLayer.mml_wmts = function (options) {
         var layer = options.layer || "taustakartta";
-        var url = "http://avoindata.maanmittauslaitos.fi/mapcache/wmts/1.0.0/" + layer + "/default/"
+        var url = "https://avoin-karttakuva.maanmittauslaitos.fi/avoin/wmts/1.0.0/" + layer + "/default/"
                 + "ETRS-TM35FIN/{z}/{y}/{x}.png";
 
         return new L.TileLayer.MML_WMTS(url, options);
