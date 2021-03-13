@@ -1,6 +1,6 @@
 /**
 *   MML layers for Leaflet. https://github.com/jleh/Leaflet.MML-layers
-*   Copyright (c) 2013-2018 Juuso Lehtinen
+*   Copyright (c) 2013-2021 Juuso Lehtinen
 */
 
 (function (factory, window) {
