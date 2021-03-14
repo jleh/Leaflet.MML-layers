@@ -21,7 +21,7 @@
     "url": "https://github.com/jleh/Leaflet.MML-layers/issues"
   },
   "homepage": "https://github.com/jleh/Leaflet.MML-layers#readme",
-  "dependencies": {
+  "peerDependencies": {
     "leaflet": "^1.0.1"
   },
   "devDependencies": {
