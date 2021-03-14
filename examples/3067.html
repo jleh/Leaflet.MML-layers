@@ -1,16 +1,18 @@
-<!doctype>
+<!DOCTYPE >
 <html>
-<head>
+  <head>
     <title>MML EPSG:3067 Layers example</title>
 
     <style type="text/css">
-        body {
-            padding: 0;
-            margin: 0;
-        }
-        html, body, #map {
-            height: 100%;
-        }
+      body {
+        padding: 0;
+        margin: 0;
+      }
+      html,
+      body,
+      #map {
+        height: 100%;
+      }
     </style>
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
@@ -21,20 +23,20 @@
     <script src="../mmlLayers.js"></script>
 
     <script type="text/javascript">
-        var map;
+      var map;
 
-        function init() {
-            map = new L.map('map', {
-                crs: L.TileLayer.MML.get3067Proj(),
-                continuousWorld: true,
-                worldCopyJump: false
-            }).setView([61, 25], 6);
-           
-            L.tileLayer.mml("Taustakartta_3067").addTo(map);
-        }
+      function init() {
+        map = new L.map("map", {
+          crs: L.TileLayer.MML.get3067Proj(),
+          continuousWorld: true,
+          worldCopyJump: false
+        }).setView([61, 25], 6);
+
+        L.tileLayer.mml("Taustakartta_3067").addTo(map);
+      }
     </script>
-</head>
-<body onload="init();">
+  </head>
+  <body onload="init();">
     <div id="map"></div>
-</body>
+  </body>
 </html>
