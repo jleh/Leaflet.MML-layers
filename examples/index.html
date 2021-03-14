@@ -1,16 +1,18 @@
-<!doctype>
+<!DOCTYPE >
 <html>
-<head>
+  <head>
     <title>MML Layers example</title>
 
     <style type="text/css">
-        body {
-            padding: 0;
-            margin: 0;
-        }
-        html, body, #map {
-            height: 100%;
-        }
+      body {
+        padding: 0;
+        margin: 0;
+      }
+      html,
+      body,
+      #map {
+        height: 100%;
+      }
     </style>
 
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
@@ -19,23 +21,23 @@
     <script src="../mmlLayers.js"></script>
 
     <script type="text/javascript">
-        var map;
+      var map;
 
-        function init() {
-            var layers = {
-                "Taustakartta" : L.tileLayer.mml("Taustakartta"),
-                "Peruskartta" : new L.tileLayer.mml("Peruskartta"),
-                "Ilmakuva" : L.tileLayer.mml("Ortokuva")
-            };
+      function init() {
+        var layers = {
+          Taustakartta: L.tileLayer.mml("Taustakartta"),
+          Peruskartta: new L.tileLayer.mml("Peruskartta"),
+          Ilmakuva: L.tileLayer.mml("Ortokuva")
+        };
 
-            map = new L.map('map').setView([61, 25], 8);
-            map.addLayer(layers.Taustakartta);
+        map = new L.map("map").setView([61, 25], 8);
+        map.addLayer(layers.Taustakartta);
 
-            L.control.layers(layers).addTo(map);
-        }
+        L.control.layers(layers).addTo(map);
+      }
     </script>
-</head>
-<body onload="init();">
+  </head>
+  <body onload="init();">
     <div id="map"></div>
-</body>
+  </body>
 </html>
