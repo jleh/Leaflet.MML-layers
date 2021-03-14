@@ -99,7 +99,7 @@
       maxZoom: 15,
       minZoom: 0,
       attribution:
-        '&copy; <a href="http://www.maanmittauslaitos.fi/avoindata_lisenssi_versio1_20120501"' +
+        '&copy; <a href="https://www.maanmittauslaitos.fi/avoindata-lisenssi-cc40"' +
         "target=new>Maanmittauslaitos</a>"
     }
   });
