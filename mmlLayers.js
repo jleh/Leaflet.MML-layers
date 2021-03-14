@@ -112,6 +112,10 @@
       "/default/" +
       "ETRS-TM35FIN/{z}/{y}/{x}.png";
 
+    if (options.apiKey) {
+      url = url + '?api-key=' + options.apiKey;
+    }
+
     return new L.TileLayer.MML_WMTS(url, options);
   };
 
