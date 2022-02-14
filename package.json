@@ -1,6 +1,6 @@
 {
   "name": "leaflet-mml-layers",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Predefined Leafler tile layer settings for MML maps from kartat.kapsi.fi TMS service and karttakuva.maanmittauslaitos.fi WMTS service",
   "main": "mmlLayers.js",
   "scripts": {

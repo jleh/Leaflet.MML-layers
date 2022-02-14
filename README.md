@@ -14,6 +14,7 @@ Since version 1.1.0 it's possible to use [WMTS layers](http://www.maanmittauslai
 
 ## Changelog
 
+- **3.0.1** Use HTTPS for Kapsi tiles.
 - **3.0.0** Add support for MML api key. Move Leafltet to peerDependencies.
 - **2.1.0** Use avoin-karttakuva MML endpoint. Tiles from old endpoint are not updated.
 - **2.0.0** Compatible with Leaflet 1.0

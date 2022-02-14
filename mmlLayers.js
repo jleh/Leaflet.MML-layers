@@ -1,6 +1,6 @@
 /**
  *   MML layers for Leaflet. https://github.com/jleh/Leaflet.MML-layers
- *   Copyright (c) 2013-2021 Juuso Lehtinen
+ *   Copyright (c) 2013-2022 Juuso Lehtinen
  */
 
 (function (factory, window) {
@@ -25,7 +25,7 @@
   L.TileLayer.MML = L.TileLayer.extend({
     options: {
       attribution:
-        '&copy; <a href="http://www.maanmittauslaitos.fi/avoindata_lisenssi_versio1_20120501"' +
+        '&copy; <a href="https://www.maanmittauslaitos.fi/avoindata_lisenssi_versio1_20120501"' +
         "target=new>Maanmittauslaitos</a>"
     },
 
@@ -64,12 +64,12 @@
     },
 
     urls: {
-      peruskartta: "http://tiles.kartat.kapsi.fi/peruskartta/{z}/{x}/{y}.jpg",
-      taustakartta: "http://tiles.kartat.kapsi.fi/taustakartta/{z}/{x}/{y}.jpg",
-      ortokuva: "http://tiles.kartat.kapsi.fi/ortokuva/{z}/{x}/{y}.jpg",
-      peruskartta_3067: "http://tiles.kartat.kapsi.fi/peruskartta_3067/{z}/{x}/{y}.jpg",
-      taustakartta_3067: "http://tiles.kartat.kapsi.fi/taustakartta_3067/{z}/{x}/{y}.jpg",
-      ortokuva_3067: "http://tiles.kartat.kapsi.fi/ortokuva_3067/{z}/{x}/{y}.jpg"
+      peruskartta: "https://tiles.kartat.kapsi.fi/peruskartta/{z}/{x}/{y}.jpg",
+      taustakartta: "https://tiles.kartat.kapsi.fi/taustakartta/{z}/{x}/{y}.jpg",
+      ortokuva: "https://tiles.kartat.kapsi.fi/ortokuva/{z}/{x}/{y}.jpg",
+      peruskartta_3067: "https://tiles.kartat.kapsi.fi/peruskartta_3067/{z}/{x}/{y}.jpg",
+      taustakartta_3067: "https://tiles.kartat.kapsi.fi/taustakartta_3067/{z}/{x}/{y}.jpg",
+      ortokuva_3067: "https://tiles.kartat.kapsi.fi/ortokuva_3067/{z}/{x}/{y}.jpg"
     },
 
     initialize: function (type, options) {
