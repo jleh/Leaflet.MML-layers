@@ -5,7 +5,7 @@ National Land Survey of Finland (MML) free maps on [Leaflet](http://leafletjs.co
 Predefined Leafler tile layer settings for [kartat.kapsi.fi](http://kartat.kapsi.fi/) TMS service. Supports both `EPSG:900913` & `EPSG:3067` layers.
 If you want to use `EPSG:3067` layers you must include [Proj4Leaflet](https://github.com/kartena/Proj4Leaflet)
 
-[WMTS layers](https://www.maanmittauslaitos.fi/karttakuvapalvelu). After 9.12.2020 using these layers requires an (API key)[https://www.maanmittauslaitos.fi/rajapinnat/api-avaimen-ohje]. API key can be provided as a parameter or using basic auth.
+[WMTS layers](https://www.maanmittauslaitos.fi/karttakuvapalvelu). After 9.12.2020 using these layers requires an [API key](https://www.maanmittauslaitos.fi/rajapinnat/api-avaimen-ohje). API key can be provided as a parameter or using basic auth.
 Proj4Leaflet must be loaded to use WMTS layers.
 
 Since version 1.1.0 it's possible to use [WMTS layers](http://www.maanmittauslaitos.fi/aineistot-palvelut/rajapintapalvelut/paikkatiedon-palvelualustan-pilotti) from MML.
