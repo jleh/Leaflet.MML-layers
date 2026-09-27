@@ -46,16 +46,17 @@ var map = new L.map("map", {
   crs: L.TileLayer.MML.get3067Proj()
 }).setView([61, 25], 6);
 
-L.tileLayer.mml_wmts({ layer: "maastokartta", apiKey: 'key' }).addTo(map);
+L.tileLayer.mml_wmts({ layer: "maastokartta", apiKey: "key" }).addTo(map);
 ```
 
 Available layers:
-* taustakartta
-* maastokartta
-* selkokartta
-* ortokuva
-* kiinteistojaotus
-* kiinteistotunnukset
+
+- taustakartta
+- maastokartta
+- selkokartta
+- ortokuva
+- kiinteistojaotus
+- kiinteistotunnukset
 
 ### EPSG:900913 layers
 
