@@ -2,8 +2,10 @@
 
 National Land Survey of Finland (MML) free maps on [Leaflet](http://leafletjs.com/).
 
-Predefined Leaflet tile layer settings for [kartat.kapsi.fi](http://kartat.kapsi.fi/) TMS service. Supports both `EPSG:900913` & `EPSG:3067` layers.
+Predefined Leaflet tile layer settings for [kartat.kapsi.fi](http://kartat.kapsi.fi/) TMS service (`EPSG:3067` layers).
 If you want to use `EPSG:3067` layers you must include [Proj4Leaflet](https://github.com/kartena/Proj4Leaflet)
+
+**Deprecated:** Kapsi's `EPSG:900913` tiles (`Peruskartta`, `Taustakartta` and `Ortokuva` without the `_3067` suffix) no longer work. These layer types will be removed in the next major version.
 
 [WMTS layers](https://www.maanmittauslaitos.fi/karttakuvapalvelu). After 9.12.2020 using these layers requires an [API key](https://www.maanmittauslaitos.fi/rajapinnat/api-avaimen-ohje). API key can be provided as a parameter or using basic auth.
 Proj4Leaflet must be loaded to use WMTS layers.
@@ -14,7 +16,7 @@ Since version 1.1.0 it's possible to use [WMTS layers](http://www.maanmittauslai
 
 ## Changelog
 
-- **3.0.2** The plugin wrapper no longer throws `window is not defined` when there is no global `window`. Allow calling `mml_wmts()` without options. Throw clear errors for unknown layer types and when Proj4Leaflet is missing for EPSG:3067 layers. Fix attribution link markup.
+- **3.0.2** The plugin wrapper no longer throws `window is not defined` when there is no global `window`. Allow calling `mml_wmts()` without options. Throw clear errors for unknown layer types and when Proj4Leaflet is missing for EPSG:3067 layers. Fix attribution link markup. Deprecate the Kapsi `EPSG:900913` layers, which no longer work.
 - **3.0.1** Use HTTPS for Kapsi tiles.
 - **3.0.0** Add support for MML api key. Move Leaflet to peerDependencies.
 - **2.1.0** Use avoin-karttakuva MML endpoint. Tiles from old endpoint are not updated.
@@ -59,27 +61,22 @@ Available layers:
 - kiinteistojaotus
 - kiinteistotunnukset
 
-### EPSG:900913 layers
-
-```js
-L.tileLayer.mml("Taustakartta");
-L.tileLayer.mml("Peruskartta");
-L.tileLayer.mml("Ortokuva");
-
-// Or add to map
-L.tileLayer.mml("Peruskartta").addTo(map);
-```
-
 ### EPSG:3067 layers
 
 ```js
-// Works like 900913 but set correct CRS to map
+// Set the EPSG:3067 CRS on the map
 var map = new L.map("map", {
   crs: L.TileLayer.MML.get3067Proj()
 }).setView([61, 25], 6);
 
 L.tileLayer.mml("Peruskartta_3067").addTo(map);
 ```
+
+Available layers:
+
+- Peruskartta_3067
+- Taustakartta_3067
+- Ortokuva_3067
 
 ## Static methods
 
