@@ -2,7 +2,7 @@
 
 National Land Survey of Finland (MML) free maps on [Leaflet](http://leafletjs.com/).
 
-Predefined Leafler tile layer settings for [kartat.kapsi.fi](http://kartat.kapsi.fi/) TMS service. Supports both `EPSG:900913` & `EPSG:3067` layers.
+Predefined Leaflet tile layer settings for [kartat.kapsi.fi](http://kartat.kapsi.fi/) TMS service. Supports both `EPSG:900913` & `EPSG:3067` layers.
 If you want to use `EPSG:3067` layers you must include [Proj4Leaflet](https://github.com/kartena/Proj4Leaflet)
 
 [WMTS layers](https://www.maanmittauslaitos.fi/karttakuvapalvelu). After 9.12.2020 using these layers requires an [API key](https://www.maanmittauslaitos.fi/rajapinnat/api-avaimen-ohje). API key can be provided as a parameter or using basic auth.
@@ -16,15 +16,15 @@ Since version 1.1.0 it's possible to use [WMTS layers](http://www.maanmittauslai
 
 - **3.0.2** The plugin wrapper no longer throws `window is not defined` when there is no global `window`. Allow calling `mml_wmts()` without options. Throw clear errors for unknown layer types and when Proj4Leaflet is missing for EPSG:3067 layers. Fix attribution link markup.
 - **3.0.1** Use HTTPS for Kapsi tiles.
-- **3.0.0** Add support for MML api key. Move Leafltet to peerDependencies.
+- **3.0.0** Add support for MML api key. Move Leaflet to peerDependencies.
 - **2.1.0** Use avoin-karttakuva MML endpoint. Tiles from old endpoint are not updated.
 - **2.0.0** Compatible with Leaflet 1.0
 - **1.3.1** Project can be installed as an npm package.
-- **1.2.0** Added support for module JS module loaders (like RequireJS).
+- **1.2.0** Added support for JS module loaders (like RequireJS).
 
 ## Installation
 
-Just download and include `mmlLayers.js` to your page after leaflet or install it from npm.
+Just download and include `mmlLayers.js` in your page after Leaflet or install it from npm.
 
 ```js
 $ npm install --save leaflet-mml-layers
@@ -85,4 +85,4 @@ L.tileLayer.mml("Peruskartta_3067").addTo(map);
 
 ## Static methods
 
-`L.TileLayer.MML.get3067Proj()` Returns `L.Proj.CRS.TMS` object for `EPSG:3067`
+`L.TileLayer.MML.get3067Proj()` Returns `L.Proj.CRS` object for `EPSG:3067`
