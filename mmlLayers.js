@@ -3,30 +3,36 @@
  *   Copyright (c) 2013-2022 Juuso Lehtinen
  */
 
-(function (factory, window) {
-  var L;
+(function (factory) {
+  var root = typeof window !== "undefined" ? window : undefined;
 
   if (typeof define === "function" && define.amd) {
     define(["leaflet"], factory);
   } else if (typeof module !== "undefined") {
-    if (window.L) {
-      module.exports = factory(window.L);
+    if (root && root.L) {
+      module.exports = factory(root.L);
     } else {
       module.exports = factory(require("leaflet"));
     }
   } else {
-    if (typeof window.L === "undefined") {
-      throw "Leaflet must be loaded first.";
+    if (!root || typeof root.L === "undefined") {
+      throw new Error("Leaflet must be loaded first.");
     }
 
-    window.L = factory(window.L);
+    root.L = factory(root.L);
   }
 })(function (L) {
+  function checkProj4Leaflet() {
+    if (L.Proj === undefined) {
+      throw new Error("Use of EPSG:3067 layers requires Proj4Leaflet plugin.");
+    }
+  }
+
   L.TileLayer.MML = L.TileLayer.extend({
     options: {
       attribution:
         '&copy; <a href="https://www.maanmittauslaitos.fi/avoindata_lisenssi_versio1_20120501"' +
-        "target=new>Maanmittauslaitos</a>"
+        ' target="new" rel="noopener noreferrer">Maanmittauslaitos</a>'
     },
 
     statics: {
@@ -34,6 +40,7 @@
        *   Get EPSG:3067 CRS Projection.
        */
       get3067Proj: function () {
+        checkProj4Leaflet();
         return new L.Proj.CRS("EPSG:3067", "+proj=utm +zone=35 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs", {
           origin: [-548576, 8388608],
           bounds: L.bounds([-548576, 8388608], [1548576, 6291456]),
@@ -74,13 +81,17 @@
 
     initialize: function (type, options) {
       L.setOptions(this, options);
-      var url = this.urls[type.toLowerCase()];
+      var key = String(type).toLowerCase();
+      var url = this.urls[key];
 
-      if (type.indexOf("3067") != -1) {
-        // Check that Proj4Leaflet is loaded
-        if (L.Proj === undefined) {
-          throw "Use of EPSG:3067 layers requires Proj4Leaflet plugin.";
-        }
+      if (typeof url !== "string") {
+        throw new Error(
+          'Unknown MML layer type "' + String(type) + '". Available: ' + Object.keys(this.urls).join(", ")
+        );
+      }
+
+      if (key.indexOf("3067") != -1) {
+        checkProj4Leaflet();
       }
 
       L.TileLayer.prototype.initialize.call(this, url, options);
@@ -99,11 +110,13 @@
       maxZoom: 15,
       minZoom: 0,
       attribution:
-        '&copy; <a href="https://www.maanmittauslaitos.fi/avoindata-lisenssi-cc40"' + "target=new>Maanmittauslaitos</a>"
+        '&copy; <a href="https://www.maanmittauslaitos.fi/avoindata-lisenssi-cc40"' +
+        ' target="new" rel="noopener noreferrer">Maanmittauslaitos</a>'
     }
   });
 
   L.tileLayer.mml_wmts = function (options) {
+    options = options || {};
     var layer = options.layer || "taustakartta";
     var url =
       "https://avoin-karttakuva.maanmittauslaitos.fi/avoin/wmts/1.0.0/" +
@@ -119,4 +132,4 @@
   };
 
   return L;
-}, window);
+});
