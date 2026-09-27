@@ -75,9 +75,7 @@ L.tileLayer.mml("Peruskartta").addTo(map);
 ```js
 // Works like 900913 but set correct CRS to map
 var map = new L.map("map", {
-  crs: L.TileLayer.MML.get3067Proj(),
-  continuousWorld: true,
-  worldCopyJump: false
+  crs: L.TileLayer.MML.get3067Proj()
 }).setView([61, 25], 6);
 
 L.tileLayer.mml("Peruskartta_3067").addTo(map);
