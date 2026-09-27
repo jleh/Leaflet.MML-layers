@@ -99,8 +99,7 @@
       maxZoom: 15,
       minZoom: 0,
       attribution:
-        '&copy; <a href="https://www.maanmittauslaitos.fi/avoindata-lisenssi-cc40"' +
-        "target=new>Maanmittauslaitos</a>"
+        '&copy; <a href="https://www.maanmittauslaitos.fi/avoindata-lisenssi-cc40"' + "target=new>Maanmittauslaitos</a>"
     }
   });
 
@@ -113,7 +112,7 @@
       "ETRS-TM35FIN/{z}/{y}/{x}.png";
 
     if (options.apiKey) {
-      url = url + '?api-key=' + options.apiKey;
+      url = url + "?api-key=" + options.apiKey;
     }
 
     return new L.TileLayer.MML_WMTS(url, options);
