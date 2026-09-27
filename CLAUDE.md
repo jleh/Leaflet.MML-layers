@@ -31,6 +31,15 @@ CI (`.github/workflows/ci.yml`) runs on pushes to `master` and on PRs:
 - **unit:** Node 22/24 × Leaflet 1.0.1/1.9.4. Leaflet 1.0.1 is the bottom of the `^1.0.1` peer range.
 - **examples:** `npm run test:examples`
 
+## Workflow
+
+A review loop is required before every commit:
+
+1. Run the `code-review` skill on the diff.
+2. Fix every finding, or explicitly decide not to and say why.
+3. Re-run `npm run check`, `npm test` and `npm run test:examples`.
+4. Repeat until a review round returns no findings.
+
 ## Architecture of `mmlLayers.js`
 
 **UMD wrapper.** It supports three ways of loading:
