@@ -1,6 +1,8 @@
 <!doctype html>
 <html>
 <head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Leaflet.MML-layers</title>
 
 	<style type="text/css">
@@ -16,12 +18,33 @@
 <body>
 	<h1>Leaflet.MML-layers examples</h1>
 
-	<a href="examples/wmts.html">WMTS EPSG:3067</a><br>
-	<a href="examples/index.html">EPSG:900913</a><br>
+	<p>
+		<label>
+			MML API key for the WMTS examples
+			(<a href="https://www.maanmittauslaitos.fi/rajapinnat/api-avaimen-ohje">get one</a>):
+			<input id="apiKey" type="text" size="40" autocomplete="off">
+		</label>
+	</p>
+
+	<a class="wmts" href="examples/wmts.html">WMTS EPSG:3067</a><br>
 	<a href="examples/3067.html">EPSG:3067</a><br><br>
 	<br>
-	<a href="examples/requirejs.html">Library loaded as RequireJS module</a><br><br>
+	<a class="wmts" href="examples/requirejs.html">Library loaded as RequireJS module</a><br><br>
 
 	Project on <a href="https://github.com/jleh/Leaflet.MML-layers">GitHub</a>
+
+	<script>
+		var input = document.getElementById("apiKey");
+		var links = document.querySelectorAll("a.wmts");
+
+		input.addEventListener("input", function () {
+			var key = input.value.trim();
+
+			for (var i = 0; i < links.length; i++) {
+				var url = links[i].getAttribute("href").split("?")[0];
+				links[i].setAttribute("href", key ? url + "?apiKey=" + encodeURIComponent(key) : url);
+			}
+		});
+	</script>
 </body>
 </html>
