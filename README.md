@@ -81,3 +81,18 @@ Available layers:
 ## Static methods
 
 `L.TileLayer.MML.get3067Proj()` Returns `L.Proj.CRS` object for `EPSG:3067`
+
+## Development
+
+Requires Node.js 22.x (22.22.2 or newer), 24.x (24.15 or newer) or 26+, the versions jsdom supports.
+
+```sh
+npm ci
+npm run check          # Prettier
+npm test               # Unit tests (Node + jsdom)
+npm run test:examples  # Loads the examples in headless Chromium
+```
+
+The examples test needs a Playwright browser: run `npx playwright install --only-shell chromium` once
+(add `--with-deps` on Linux to also install system libraries). It serves the CDN files in the examples from
+`node_modules`, so run `npm ci` again if you installed a different Leaflet version for the unit tests.

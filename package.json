@@ -4,7 +4,8 @@
   "description": "Predefined Leaflet tile layer settings for MML maps from kartat.kapsi.fi TMS service and karttakuva.maanmittauslaitos.fi WMTS service",
   "main": "mmlLayers.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --test \"test/unit/*.test.js\"",
+    "test:examples": "node --test \"test/examples/*.test.js\"",
     "check": "prettier -c ."
   },
   "repository": {
@@ -26,6 +27,12 @@
     "leaflet": "^1.0.1"
   },
   "devDependencies": {
-    "prettier": "2.2.1"
+    "jsdom": "30.1.1",
+    "leaflet": "1.9.4",
+    "playwright": "1.63.0",
+    "prettier": "2.2.1",
+    "proj4": "2.22.0",
+    "proj4leaflet": "1.0.2",
+    "requirejs": "2.3.8"
   }
 }
