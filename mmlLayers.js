@@ -118,11 +118,14 @@
   L.tileLayer.mml_wmts = function (options) {
     options = options || {};
     var layer = options.layer || "taustakartta";
+    // MML's capabilities list ortokuva tiles as JPEG and the other layers as PNG
+    var extension = layer === "ortokuva" ? "jpg" : "png";
     var url =
       "https://avoin-karttakuva.maanmittauslaitos.fi/avoin/wmts/1.0.0/" +
       layer +
       "/default/" +
-      "ETRS-TM35FIN/{z}/{y}/{x}.png";
+      "ETRS-TM35FIN/{z}/{y}/{x}." +
+      extension;
 
     if (options.apiKey) {
       url = url + "?api-key=" + options.apiKey;

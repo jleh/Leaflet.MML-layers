@@ -18,9 +18,12 @@ const PNG = Buffer.from(
 const API_KEY_WARNING = /require an API key/;
 
 const kapsiTile = (layer) => new RegExp(`^https://tiles\\.kartat\\.kapsi\\.fi/${layer}/\\d+/\\d+/\\d+\\.jpg$`);
-const wmtsTile = (query) =>
+const wmtsTile = (layer, query) =>
   new RegExp(
-    "^https://avoin-karttakuva\\.maanmittauslaitos\\.fi/avoin/wmts/1\\.0\\.0/maastokartta/default/ETRS-TM35FIN/\\d+/\\d+/\\d+\\.png" +
+    "^https://avoin-karttakuva\\.maanmittauslaitos\\.fi/avoin/wmts/1\\.0\\.0/" +
+      layer +
+      "/default/ETRS-TM35FIN/\\d+/\\d+/\\d+\\." +
+      (layer === "ortokuva" ? "jpg" : "png") +
       query +
       "$"
   );
@@ -186,7 +189,7 @@ test("3067.html", () =>
 
 test("wmts.html without an API key", () =>
   checkExample("wmts.html", {
-    tile: wmtsTile(""),
+    tile: wmtsTile("maastokartta", ""),
     centerTile: WMTS_CENTER,
     crs: "EPSG:3067",
     apiKeyWarning: true
@@ -194,13 +197,63 @@ test("wmts.html without an API key", () =>
 
 test("wmts.html with an API key", () =>
   checkExample("wmts.html?apiKey=abc123", {
-    tile: wmtsTile("\\?api-key=abc123"),
+    tile: wmtsTile("maastokartta", "\\?api-key=abc123"),
     centerTile: WMTS_CENTER,
     crs: "EPSG:3067"
   }));
 
 test("requirejs.html without an API key", () =>
-  checkExample("requirejs.html", { tile: wmtsTile(""), centerTile: WMTS_CENTER }));
+  checkExample("requirejs.html", { tile: wmtsTile("maastokartta", ""), centerTile: WMTS_CENTER }));
 
 test("requirejs.html with an API key", () =>
-  checkExample("requirejs.html?apiKey=abc123", { tile: wmtsTile("\\?api-key=abc123"), centerTile: WMTS_CENTER }));
+  checkExample("requirejs.html?apiKey=abc123", {
+    tile: wmtsTile("maastokartta", "\\?api-key=abc123"),
+    centerTile: WMTS_CENTER
+  }));
+
+test("wmts.html layer switcher", async () => {
+  const baseLayers = ["taustakartta", "maastokartta", "selkokartta", "ortokuva"];
+  const overlays = ["kiinteistojaotus", "kiinteistotunnukset"];
+  const page = await browser.newPage();
+  try {
+    const result = await openExample(page);
+    await page
+      .goto(baseUrl + "wmts.html?apiKey=abc123")
+      .catch((e) => result.errors.push("navigation failed: " + e.message));
+    assert.deepStrictEqual(result.errors, []);
+    const labels = await page.locator(".leaflet-control-layers label").allTextContents();
+    assert.deepStrictEqual(
+      labels.map((label) => label.trim()),
+      baseLayers.concat(overlays)
+    );
+
+    const input = (layer) => page.locator(".leaflet-control-layers label", { hasText: layer }).locator("input");
+    const switchTo = async (layer) => {
+      const tile = wmtsTile(layer, "\\?api-key=abc123");
+      // Record a missing tile as an error, so the wait never rejects unhandled after a page error
+      const requested = page
+        .waitForRequest((req) => tile.test(req.url()), { timeout: 15000 })
+        .catch((e) => result.errors.push(`${layer} tile not requested: ${e.message}`));
+      await input(layer).click();
+      await Promise.race([requested, result.broken]);
+    };
+
+    for (const layer of baseLayers.filter((layer) => layer !== "maastokartta")) {
+      await switchTo(layer);
+      if (result.errors.length) break;
+    }
+    assert.deepStrictEqual(result.errors, []);
+
+    // MML only has property tiles from zoom 10 up, so the overlays are disabled at the start view
+    for (const layer of overlays) assert.ok(await input(layer).isDisabled(), `${layer} enabled at zoom 6`);
+    await page.evaluate(() => window.map.setZoom(10, { animate: false }));
+    for (const layer of overlays) {
+      await switchTo(layer);
+      if (result.errors.length) break;
+    }
+    assert.deepStrictEqual(result.errors, []);
+  } finally {
+    await page.unrouteAll({ behavior: "ignoreErrors" });
+    await page.close();
+  }
+});
