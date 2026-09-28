@@ -3,3 +3,4 @@ examples
 test
 .github
 CLAUDE.md
+.env

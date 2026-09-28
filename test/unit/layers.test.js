@@ -47,6 +47,10 @@ test("mml_wmts builds MML WMTS URLs", () => {
     L.tileLayer.mml_wmts({ layer: "maastokartta", apiKey: "k" })._url,
     WMTS + "maastokartta/default/ETRS-TM35FIN/{z}/{y}/{x}.png?api-key=k"
   );
+  assert.strictEqual(
+    L.tileLayer.mml_wmts({ layer: "ortokuva", apiKey: "k" })._url,
+    WMTS + "ortokuva/default/ETRS-TM35FIN/{z}/{y}/{x}.jpg?api-key=k"
+  );
 });
 
 test("attribution links to the MML license", () => {
