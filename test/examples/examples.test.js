@@ -22,7 +22,8 @@ const wmtsTile = (layer, query) =>
   new RegExp(
     "^https://avoin-karttakuva\\.maanmittauslaitos\\.fi/avoin/wmts/1\\.0\\.0/" +
       layer +
-      "/default/ETRS-TM35FIN/\\d+/\\d+/\\d+\\.png" +
+      "/default/ETRS-TM35FIN/\\d+/\\d+/\\d+\\." +
+      (layer === "ortokuva" ? "jpg" : "png") +
       query +
       "$"
   );
@@ -211,7 +212,8 @@ test("requirejs.html with an API key", () =>
   }));
 
 test("wmts.html layer switcher", async () => {
-  const layers = ["taustakartta", "maastokartta", "selkokartta", "ortokuva", "kiinteistojaotus", "kiinteistotunnukset"];
+  const baseLayers = ["taustakartta", "maastokartta", "selkokartta", "ortokuva"];
+  const overlays = ["kiinteistojaotus", "kiinteistotunnukset"];
   const page = await browser.newPage();
   try {
     const result = await openExample(page);
@@ -222,20 +224,33 @@ test("wmts.html layer switcher", async () => {
     const labels = await page.locator(".leaflet-control-layers label").allTextContents();
     assert.deepStrictEqual(
       labels.map((label) => label.trim()),
-      layers
+      baseLayers.concat(overlays)
     );
 
-    for (const layer of layers.filter((layer) => layer !== "maastokartta")) {
+    const input = (layer) => page.locator(".leaflet-control-layers label", { hasText: layer }).locator("input");
+    const switchTo = async (layer) => {
       const tile = wmtsTile(layer, "\\?api-key=abc123");
       // Record a missing tile as an error, so the wait never rejects unhandled after a page error
       const requested = page
         .waitForRequest((req) => tile.test(req.url()), { timeout: 15000 })
         .catch((e) => result.errors.push(`${layer} tile not requested: ${e.message}`));
-      await page.locator(".leaflet-control-layers label", { hasText: layer }).click();
+      await input(layer).click();
       await Promise.race([requested, result.broken]);
+    };
+
+    for (const layer of baseLayers.filter((layer) => layer !== "maastokartta")) {
+      await switchTo(layer);
       if (result.errors.length) break;
     }
+    assert.deepStrictEqual(result.errors, []);
 
+    // MML only has property tiles from zoom 10 up, so the overlays are disabled at the start view
+    for (const layer of overlays) assert.ok(await input(layer).isDisabled(), `${layer} enabled at zoom 6`);
+    await page.evaluate(() => window.map.setZoom(10, { animate: false }));
+    for (const layer of overlays) {
+      await switchTo(layer);
+      if (result.errors.length) break;
+    }
     assert.deepStrictEqual(result.errors, []);
   } finally {
     await page.unrouteAll({ behavior: "ignoreErrors" });

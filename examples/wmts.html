@@ -46,9 +46,10 @@
           baseLayers[layer] = L.tileLayer.mml_wmts({ layer: layer, apiKey: apiKey });
         });
 
-        // Property boundaries and IDs are transparent, so they are shown on top of a base layer
+        // Property boundaries and IDs are transparent, so they are shown on top of a base layer.
+        // MML only has their tiles from zoom level 10 up.
         ["kiinteistojaotus", "kiinteistotunnukset"].forEach(function (layer) {
-          overlays[layer] = L.tileLayer.mml_wmts({ layer: layer, apiKey: apiKey });
+          overlays[layer] = L.tileLayer.mml_wmts({ layer: layer, apiKey: apiKey, minZoom: 10 });
         });
 
         baseLayers.maastokartta.addTo(map);
