@@ -18,9 +18,11 @@ const PNG = Buffer.from(
 const API_KEY_WARNING = /require an API key/;
 
 const kapsiTile = (layer) => new RegExp(`^https://tiles\\.kartat\\.kapsi\\.fi/${layer}/\\d+/\\d+/\\d+\\.jpg$`);
-const wmtsTile = (query) =>
+const wmtsTile = (layer, query) =>
   new RegExp(
-    "^https://avoin-karttakuva\\.maanmittauslaitos\\.fi/avoin/wmts/1\\.0\\.0/maastokartta/default/ETRS-TM35FIN/\\d+/\\d+/\\d+\\.png" +
+    "^https://avoin-karttakuva\\.maanmittauslaitos\\.fi/avoin/wmts/1\\.0\\.0/" +
+      layer +
+      "/default/ETRS-TM35FIN/\\d+/\\d+/\\d+\\.png" +
       query +
       "$"
   );
@@ -186,7 +188,7 @@ test("3067.html", () =>
 
 test("wmts.html without an API key", () =>
   checkExample("wmts.html", {
-    tile: wmtsTile(""),
+    tile: wmtsTile("maastokartta", ""),
     centerTile: WMTS_CENTER,
     crs: "EPSG:3067",
     apiKeyWarning: true
@@ -194,13 +196,49 @@ test("wmts.html without an API key", () =>
 
 test("wmts.html with an API key", () =>
   checkExample("wmts.html?apiKey=abc123", {
-    tile: wmtsTile("\\?api-key=abc123"),
+    tile: wmtsTile("maastokartta", "\\?api-key=abc123"),
     centerTile: WMTS_CENTER,
     crs: "EPSG:3067"
   }));
 
 test("requirejs.html without an API key", () =>
-  checkExample("requirejs.html", { tile: wmtsTile(""), centerTile: WMTS_CENTER }));
+  checkExample("requirejs.html", { tile: wmtsTile("maastokartta", ""), centerTile: WMTS_CENTER }));
 
 test("requirejs.html with an API key", () =>
-  checkExample("requirejs.html?apiKey=abc123", { tile: wmtsTile("\\?api-key=abc123"), centerTile: WMTS_CENTER }));
+  checkExample("requirejs.html?apiKey=abc123", {
+    tile: wmtsTile("maastokartta", "\\?api-key=abc123"),
+    centerTile: WMTS_CENTER
+  }));
+
+test("wmts.html layer switcher", async () => {
+  const layers = ["taustakartta", "maastokartta", "selkokartta", "ortokuva", "kiinteistojaotus", "kiinteistotunnukset"];
+  const page = await browser.newPage();
+  try {
+    const result = await openExample(page);
+    await page
+      .goto(baseUrl + "wmts.html?apiKey=abc123")
+      .catch((e) => result.errors.push("navigation failed: " + e.message));
+    assert.deepStrictEqual(result.errors, []);
+    const labels = await page.locator(".leaflet-control-layers label").allTextContents();
+    assert.deepStrictEqual(
+      labels.map((label) => label.trim()),
+      layers
+    );
+
+    for (const layer of layers.filter((layer) => layer !== "maastokartta")) {
+      const tile = wmtsTile(layer, "\\?api-key=abc123");
+      // Record a missing tile as an error, so the wait never rejects unhandled after a page error
+      const requested = page
+        .waitForRequest((req) => tile.test(req.url()), { timeout: 15000 })
+        .catch((e) => result.errors.push(`${layer} tile not requested: ${e.message}`));
+      await page.locator(".leaflet-control-layers label", { hasText: layer }).click();
+      await Promise.race([requested, result.broken]);
+      if (result.errors.length) break;
+    }
+
+    assert.deepStrictEqual(result.errors, []);
+  } finally {
+    await page.unrouteAll({ behavior: "ignoreErrors" });
+    await page.close();
+  }
+});

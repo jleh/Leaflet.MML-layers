@@ -39,7 +39,20 @@
           crs: L.TileLayer.MML.get3067Proj()
         }).setView([61, 25], 6);
 
-        L.tileLayer.mml_wmts({ layer: "maastokartta", apiKey: apiKey }).addTo(map);
+        var baseLayers = {};
+        var overlays = {};
+
+        ["taustakartta", "maastokartta", "selkokartta", "ortokuva"].forEach(function (layer) {
+          baseLayers[layer] = L.tileLayer.mml_wmts({ layer: layer, apiKey: apiKey });
+        });
+
+        // Property boundaries and IDs are transparent, so they are shown on top of a base layer
+        ["kiinteistojaotus", "kiinteistotunnukset"].forEach(function (layer) {
+          overlays[layer] = L.tileLayer.mml_wmts({ layer: layer, apiKey: apiKey });
+        });
+
+        baseLayers.maastokartta.addTo(map);
+        L.control.layers(baseLayers, overlays, { collapsed: false }).addTo(map);
       }
     </script>
   </head>
